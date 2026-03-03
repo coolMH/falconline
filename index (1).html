@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FalconLine Digital Agency</title>
+    <!-- Inlined Favicon (SVG) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 L45 10 L45 25 L25 25 L25 45 L10 45 Z' fill='%231e293b'/%3E%3Cpath d='M90 10 L55 10 L55 25 L75 25 L75 45 L90 45 Z' fill='%231e293b'/%3E%3Cpath d='M90 90 L55 90 L55 75 L75 75 L75 55 L90 55 Z' fill='%231e293b'/%3E%3Cpath d='M10 90 L45 90 L45 75 L25 75 L25 55 L10 55 Z' fill='%232dd4bf'/%3E%3Ctext x='50' y='65' font-family='Arial, sans-serif' font-weight='bold' font-size='40' text-anchor='middle' fill='%231e293b'%3EF%3C/text%3E%3C/svg%3E" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      /* Reset & Base Styles */
+      :root {
+        --color-slate-50: #f8fafc;
+        --color-slate-100: #f1f5f9;
+        --color-slate-200: #e2e8f0;
+        --color-slate-400: #94a3b8;
+        --color-slate-500: #64748b;
+        --color-slate-600: #475569;
+        --color-slate-700: #334155;
+        --color-slate-800: #1e293b;
+        --color-slate-900: #0f172a;
+        
+        --color-emerald-100: #d1fae5;
+        --color-emerald-500: #10b981;
+        --color-emerald-600: #059669;
+        --color-emerald-700: #047857;
+        
+        --color-teal-500: #14b8a6;
+        
+        --color-blue-100: #dbeafe;
+        --color-blue-500: #3b82f6;
+        --color-blue-600: #2563eb;
+        
+        --color-green-100: #dcfce7;
+        --color-green-500: #22c55e;
+        --color-green-600: #16a34a;
+        
+        --color-white: #ffffff;
+        
+        --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background-color: var(--color-slate-50);
+        color: var(--color-slate-900);
+        line-height: 1.5;
+      }
+
+      ::selection {
+        background-color: var(--color-emerald-100);
+        color: var(--color-slate-900);
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      /* Utility Classes */
+      .container {
+        max-width: 80rem; /* 7xl equivalent */
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      @media (min-width: 640px) {
+        .container {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .container {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+
+      .text-center { text-align: center; }
+      .flex { display: flex; }
+      .items-center { align-items: center; }
+      .justify-between { justify-content: space-between; }
+      .justify-center { justify-content: center; }
+      .hidden { display: none; }
+      .block { display: block; }
+      .relative { position: relative; }
+      .absolute { position: absolute; }
+      .fixed { position: fixed; }
+      .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+      .z-50 { z-index: 50; }
+
+      /* Navigation */
+      .navbar {
+        position: fixed;
+        width: 100%;
+        z-index: 50;
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--color-slate-200);
+      }
+
+      .nav-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 4rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.05em;
+        color: var(--color-slate-900);
+      }
+
+      .logo span {
+        color: var(--color-emerald-600);
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      @media (min-width: 768px) {
+        .nav-links {
+          display: flex;
+          gap: 2rem;
+        }
+      }
+
+      .nav-link {
+        color: var(--color-slate-600);
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .nav-link:hover {
+        color: var(--color-emerald-600);
+      }
+
+      .btn-whatsapp-nav {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background-color: var(--color-emerald-600);
+        color: white;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border-radius: 9999px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s;
+      }
+
+      .btn-whatsapp-nav:hover {
+        background-color: var(--color-emerald-700);
+      }
+
+      /* Hero Section */
+      .hero {
+        padding-top: 8rem;
+        padding-bottom: 5rem;
+        overflow: hidden;
+      }
+
+      @media (min-width: 1024px) {
+        .hero {
+          padding-top: 12rem;
+          padding-bottom: 8rem;
+        }
+      }
+
+      .hero-title {
+        font-size: 3rem;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: var(--color-slate-900);
+        margin-bottom: 2rem;
+      }
+
+      @media (min-width: 768px) {
+        .hero-title {
+          font-size: 4.5rem;
+        }
+      }
+
+      .gradient-text {
+        background: linear-gradient(to right, var(--color-emerald-600), var(--color-teal-500));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-description {
+        margin-top: 1.5rem;
+        font-size: 1.25rem;
+        color: var(--color-slate-600);
+        max-width: 42rem;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.625;
+      }
+
+      .hero-actions {
+        margin-top: 2.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .btn-primary {
+        padding: 1rem 2rem;
+        background-color: var(--color-slate-900);
+        color: white;
+        font-weight: 500;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--color-slate-800);
+      }
+
+      .btn-secondary {
+        padding: 1rem 2rem;
+        background-color: white;
+        border: 1px solid var(--color-slate-200);
+        color: var(--color-slate-700);
+        font-weight: 500;
+        border-radius: 9999px;
+        transition: all 0.2s;
+      }
+
+      .btn-secondary:hover {
+        background-color: var(--color-slate-50);
+      }
+
+      /* Services Section */
+      .section-py {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+      }
+
+      .bg-white { background-color: white; }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: var(--color-slate-900);
+      }
+
+      @media (min-width: 640px) {
+        .section-title {
+          font-size: 2.25rem;
+        }
+      }
+
+      .section-subtitle {
+        margin-top: 1rem;
+        font-size: 1.125rem;
+        color: var(--color-slate-600);
+      }
+
+      .services-grid {
+        display: grid;
+        gap: 2rem;
+      }
+
+      @media (min-width: 768px) {
+        .services-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .services-grid {
+          gap: 3rem;
+        }
+      }
+
+      .service-card {
+        padding: 2rem;
+        border-radius: 1rem;
+        background-color: var(--color-slate-50);
+        border: 1px solid var(--color-slate-100);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-xl);
+      }
+
+      .icon-box {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .icon-box.emerald {
+        background-color: var(--color-emerald-100);
+        color: var(--color-emerald-600);
+      }
+
+      .icon-box.blue {
+        background-color: var(--color-blue-100);
+        color: var(--color-blue-600);
+      }
+
+      .service-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-slate-900);
+        margin-bottom: 1rem;
+      }
+
+      .service-desc {
+        color: var(--color-slate-600);
+        margin-bottom: 1.5rem;
+        line-height: 1.625;
+      }
+
+      .service-list li {
+        display: flex;
+        align-items: center;
+        color: var(--color-slate-700);
+        margin-bottom: 0.75rem;
+      }
+
+      .service-list li svg {
+        margin-right: 0.75rem;
+      }
+
+      .text-emerald-500 { color: var(--color-emerald-500); }
+      .text-blue-500 { color: var(--color-blue-500); }
+
+      /* About Section */
+      .bg-slate-900 { background-color: var(--color-slate-900); }
+      .text-white { color: white; }
+
+      .about-grid {
+        display: grid;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      @media (min-width: 1024px) {
+        .about-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .about-title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .about-title {
+          font-size: 2.25rem;
+        }
+      }
+
+      .about-desc {
+        color: var(--color-slate-400);
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        line-height: 1.625;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+
+      .stat-number {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: var(--color-emerald-500);
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        color: var(--color-slate-400);
+      }
+
+      .cta-card {
+        position: relative;
+        background-color: var(--color-slate-800);
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1px solid var(--color-slate-700);
+      }
+
+      .cta-glow {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(16, 185, 129, 0.2);
+        filter: blur(40px);
+        border-radius: 9999px;
+        z-index: 0;
+      }
+
+      .cta-content {
+        position: relative;
+        z-index: 10;
+      }
+
+      .btn-full-emerald {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background-color: var(--color-emerald-600);
+        color: white;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: background-color 0.2s;
+      }
+
+      .btn-full-emerald:hover {
+        background-color: var(--color-emerald-700);
+      }
+
+      /* Contact Section */
+      .contact-grid {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .contact-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .contact-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--color-slate-200);
+        transition: all 0.3s;
+      }
+
+      .contact-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: scale(1.02);
+      }
+
+      .contact-icon-circle {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+      }
+
+      .bg-green-100 { background-color: var(--color-green-100); }
+      .text-green-600 { color: var(--color-green-600); }
+      .bg-blue-100 { background-color: var(--color-blue-100); }
+      .text-blue-600 { color: var(--color-blue-600); }
+
+      .contact-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--color-slate-900);
+      }
+
+      .contact-value {
+        color: var(--color-slate-500);
+        margin-top: 0.5rem;
+      }
+
+      .contact-link {
+        margin-top: 1rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
+
+      .text-emerald-600 { color: var(--color-emerald-600); }
+
+      /* Footer */
+      .footer {
+        background-color: white;
+        border-top: 1px solid var(--color-slate-200);
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      @media (min-width: 768px) {
+        .footer-content {
+          flex-direction: row;
+        }
+      }
+
+      .footer-socials {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      @media (min-width: 768px) {
+        .footer-socials {
+          margin-top: 0;
+        }
+      }
+
+      .social-link {
+        color: var(--color-slate-400);
+        transition: color 0.2s;
+      }
+
+      .social-link:hover {
+        color: var(--color-slate-600);
+      }
+
+      /* Floating Button */
+      .floating-btn {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 50;
+        background-color: var(--color-green-500);
+        color: white;
+        padding: 1rem;
+        border-radius: 9999px;
+        box-shadow: var(--shadow-lg);
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .floating-btn:hover {
+        background-color: var(--color-green-600);
+        box-shadow: var(--shadow-xl);
+        transform: scale(1.1);
+      }
+
+      /* Animations */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease-out forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+    </style>
+  </head>
+  <body>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="container">
+        <div class="nav-content">
+          <div class="flex items-center">
+            <span class="logo">
+              Falcon<span>Line</span>
+            </span>
+          </div>
+          <div class="nav-links">
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#contact" class="nav-link">Contact</a>
+          </div>
+          <div>
+            <a 
+              href="https://wa.me/971507151536"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-whatsapp-nav"
+            >
+              <i data-lucide="message-circle" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"></i>
+              WhatsApp Us
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container relative">
+        <div class="text-center fade-in-up" style="max-width: 56rem; margin: 0 auto;">
+          <h1 class="hero-title">
+            Elevating Brands in the <br class="hidden md:block" />
+            <span class="gradient-text">
+              Digital UAE Landscape
+            </span>
+          </h1>
+          <p class="hero-description">
+            We are FalconLine. A premier digital agency crafting high-impact social media strategies and cutting-edge web & app solutions for forward-thinking businesses.
+          </p>
+          <div class="hero-actions">
+            <a 
+              href="https://wa.me/971507151536"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+            >
+              Start a Project
+              <i data-lucide="arrow-right" style="width: 1rem; height: 1rem; margin-left: 0.5rem;"></i>
+            </a>
+            <a 
+              href="#services"
+              class="btn-secondary"
+            >
+              View Services
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section-py bg-white">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Our Expertise</h2>
+          <p class="section-subtitle">Comprehensive digital solutions tailored for the UAE market.</p>
+        </div>
+
+        <div class="services-grid">
+          <!-- Service 1 -->
+          <div class="service-card">
+            <div class="icon-box emerald">
+              <i data-lucide="bar-chart-3" style="width: 1.75rem; height: 1.75rem;"></i>
+            </div>
+            <h3 class="service-title">Social Media Marketing</h3>
+            <p class="service-desc">
+              Dominate your niche with data-driven social strategies. We handle content creation, community management, and paid advertising campaigns that convert.
+            </p>
+            <ul class="service-list">
+              <li>
+                <i data-lucide="check-circle-2" class="text-emerald-500" style="width: 1.25rem; height: 1.25rem;"></i>
+                Content Strategy
+              </li>
+              <li>
+                <i data-lucide="check-circle-2" class="text-emerald-500" style="width: 1.25rem; height: 1.25rem;"></i>
+                Paid Ad Campaigns
+              </li>
+              <li>
+                <i data-lucide="check-circle-2" class="text-emerald-500" style="width: 1.25rem; height: 1.25rem;"></i>
+                Community Management
+              </li>
+              <li>
+                <i data-lucide="check-circle-2" class="text-emerald-500" style="width: 1.25rem; height: 1.25rem;"></i>
+                Influencer Marketing
+              </li>
+            </ul>
+          </div>
+
+          <!-- Service 2 -->
+          <div class="service-card">
+            <div class="icon-box blue">
+              <i data-lucide="smartphone" style="width: 1.75rem; height: 1.75rem;"></i>
+            </div>
+            <h3 class="service-title">Web & App Development</h3>
+            <p class="service-desc">
+              Build your digital fortress. We develop responsive, high-performance websites and mobile applications that provide seamless user experiences.
+            </p>
+            <ul class="service-list">
+              <li>
+                <i data-lucide="check-circle-2" class="text-blue-500" style="width: 1.25rem; height: 1.25rem;"></i>
+                Custom Website Design
+              </li>
+              <li>
+                <i data-lucide="check-circle-2" class="text-blue-500" style="width: 1.25rem; height: 1.25rem;"></i>
+                Mobile App Development
+              </li>
+              <li>
+                <i data-lucide="check-circle-2" class="text-blue-500" style="width: 1.25rem; height: 1.25rem;"></i>
+                E-commerce Solutions
+              </li>
+              <li>
+                <i data-lucide="check-circle-2" class="text-blue-500" style="width: 1.25rem; height: 1.25rem;"></i>
+                UI/UX Design
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Us / UAE Focus -->
+    <section id="about" class="section-py bg-slate-900 text-white" style="overflow: hidden;">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <h2 class="about-title">Built for Business in the UAE</h2>
+            <p class="about-desc">
+              Understanding the local market is key to success. FalconLine combines global standards with local insights to help your business thrive in Dubai, Abu Dhabi, and beyond.
+            </p>
+            <div class="stats-grid">
+              <div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Client Satisfaction</div>
+              </div>
+              <div>
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support Availability</div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="cta-glow"></div>
+            <div class="cta-card cta-content">
+              <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Ready to scale?</h3>
+              <p style="color: var(--color-slate-400); margin-bottom: 1.5rem;">
+                Let's discuss how we can transform your digital presence today.
+              </p>
+              <a 
+                href="https://wa.me/971507151536"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-full-emerald"
+              >
+                Chat on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-py bg-slate-50">
+      <div class="container">
+        <div class="text-center" style="max-width: 48rem; margin: 0 auto;">
+          <h2 class="section-title" style="margin-bottom: 2rem;">Get in Touch</h2>
+          <p class="section-subtitle" style="margin-bottom: 3rem;">
+            Whether you have a question or want to start a project, our team is ready to help.
+          </p>
+          
+          <div class="contact-grid">
+            <a 
+              href="https://wa.me/971507151536"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-card group"
+            >
+              <div class="contact-icon-circle bg-green-100">
+                <i data-lucide="message-circle" class="text-green-600" style="width: 2rem; height: 2rem;"></i>
+              </div>
+              <h3 class="contact-title">WhatsApp</h3>
+              <p class="contact-value">+971 50 715 1536</p>
+              <span class="contact-link text-emerald-600">Chat now &rarr;</span>
+            </a>
+
+            <a 
+              href="mailto:contact@falconline.online"
+              class="contact-card group"
+            >
+              <div class="contact-icon-circle bg-blue-100">
+                <i data-lucide="mail" class="text-blue-600" style="width: 2rem; height: 2rem;"></i>
+              </div>
+              <h3 class="contact-title">Email</h3>
+              <p class="contact-value">contact@falconline.online</p>
+              <span class="contact-link text-blue-600">Send email &rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div style="margin-bottom: 1rem;">
+            <span class="logo" style="font-size: 1.25rem;">
+              Falcon<span>Line</span>
+            </span>
+            <p style="color: var(--color-slate-500); font-size: 0.875rem; margin-top: 0.5rem;">© 2026 FalconLine Digital Agency. All rights reserved.</p>
+          </div>
+          <div class="footer-socials">
+            <a href="#" class="social-link">
+              <span class="sr-only">Twitter</span>
+              <i data-lucide="twitter" style="width: 1.25rem; height: 1.25rem;"></i>
+            </a>
+            <a href="#" class="social-link">
+              <span class="sr-only">Instagram</span>
+              <i data-lucide="instagram" style="width: 1.25rem; height: 1.25rem;"></i>
+            </a>
+            <a href="#" class="social-link">
+              <span class="sr-only">LinkedIn</span>
+              <i data-lucide="linkedin" style="width: 1.25rem; height: 1.25rem;"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/971507151536"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="floating-btn"
+      aria-label="Chat on WhatsApp"
+    >
+      <i data-lucide="message-circle" style="width: 2rem; height: 2rem;"></i>
+    </a>
+
+    <script>
+      // Initialize Lucide icons
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
+
